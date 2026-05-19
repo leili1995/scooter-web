@@ -18,7 +18,22 @@ scooters = [
         "price": "€899",
         "image": "images/scooter2.jpg"
     },
-    # 可以在这里继续添加剩下的 8 款...
+    {
+        "model": "NL-Urban Glide",
+        "top_speed": 25,
+        "range": "55km",
+        "battery": "36V 13Ah",
+        "price": "€599",
+        "image": "images/scooter1.jpg"
+    },
+    {
+        "model": "NL-Touring Pro",
+        "top_speed": 45,
+        "range": "100km",
+        "battery": "52V 20Ah",
+        "price": "€1199",
+        "image": "images/scooter2.jpg"
+    },
 ]
 
 # 2. HTML 模板构建
@@ -57,7 +72,6 @@ for s in scooters:
             <div class="bg-gray-50 p-3 rounded"><b>Battery:</b> {s['battery']}</div>
             <div class="bg-gray-50 p-3 rounded text-blue-600 font-bold"><b>Price:</b> {s['price']}</div>
         </div>
-        <button class="w-full mt-6 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700">Order Inquiry</button>
     </div>
     """
     html_content += card
@@ -69,22 +83,23 @@ html_content += """
 <div class="max-w-2xl mx-auto mt-16 bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
     <h2 class="text-2xl font-bold mb-2">Contact the Owner</h2>
     <p class="text-gray-500 text-sm mb-6">Have a question or want to place an order? Send us a message.</p>
-    <form onsubmit="handleSubmit(event)" class="space-y-4">
+    <form action="https://formspree.io/f/xvzygejg" method="POST" onsubmit="handleSubmit(event)" class="space-y-4">
+        <input type="hidden" name="_subject" value="New scooter inquiry from website">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                <input type="text" placeholder="Your name" required
+                <input name="name" type="text" placeholder="Your name" required
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <input type="email" placeholder="you@example.com" required
+                <input name="email" type="email" placeholder="you@example.com" required
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
-            <textarea rows="4" placeholder="Write your message here..." required
+            <textarea name="message" rows="4" placeholder="Write your message here..." required
                 class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
         </div>
         <button type="submit"
@@ -95,13 +110,35 @@ html_content += """
     <p id="success-msg" class="hidden mt-4 text-green-600 text-sm font-medium text-center">
         Message sent! We'll get back to you soon.
     </p>
+    <p id="error-msg" class="hidden mt-4 text-red-600 text-sm font-medium text-center">
+        Something went wrong. Please try again or email us directly.
+    </p>
 </div>
 
 <script>
-function handleSubmit(e) {
+async function handleSubmit(e) {
     e.preventDefault();
-    document.getElementById('success-msg').classList.remove('hidden');
-    e.target.reset();
+    const form = e.target;
+    const successMsg = document.getElementById('success-msg');
+    const errorMsg = document.getElementById('error-msg');
+    successMsg.classList.add('hidden');
+    errorMsg.classList.add('hidden');
+
+    try {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+        });
+        if (response.ok) {
+            successMsg.classList.remove('hidden');
+            form.reset();
+        } else {
+            errorMsg.classList.remove('hidden');
+        }
+    } catch (err) {
+        errorMsg.classList.remove('hidden');
+    }
 }
 </script>
 
