@@ -146,6 +146,38 @@ async function handleSubmit(e) {
 }
 </script>
 
+<footer class="max-w-7xl mx-auto mt-16 bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+            <h3 class="font-bold text-gray-800 mb-3">Contact</h3>
+            <ul class="space-y-1 text-sm text-gray-600">
+                <li>info@yourshop.nl</li>
+                <li>+31 6 1234 5678</li>
+                <li>Amsterdam, Netherlands</li>
+            </ul>
+        </div>
+        <div>
+            <h3 class="font-bold text-gray-800 mb-3">Opening Hours</h3>
+            <ul class="space-y-1 text-sm text-gray-600">
+                <li>Mon – Fri: 9:00 – 18:00</li>
+                <li>Sat: 10:00 – 16:00</li>
+                <li>Sun: Closed</li>
+            </ul>
+        </div>
+        <div>
+            <h3 class="font-bold text-gray-800 mb-3">Follow Us</h3>
+            <ul class="space-y-1 text-sm text-gray-600">
+                <li><a href="#" class="hover:text-blue-600">Instagram</a></li>
+                <li><a href="#" class="hover:text-blue-600">Facebook</a></li>
+                <li><a href="#" class="hover:text-blue-600">TikTok</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="mt-8 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
+        © 2026 Scooter Showcase. All rights reserved.
+    </div>
+</footer>
+
 </body></html>
 """
 
